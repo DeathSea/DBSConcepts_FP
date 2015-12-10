@@ -1,13 +1,18 @@
+$def with (login,fo)
 <!DOCTYPE html>
 <html>
 <head>
 	<title>bilibili data manager</title>
 </head>
 <body>
+$if login == True:
 	<a href="/av">all av info</a><br>
 	<a href="/up">all up info</a><br>
 	<a href="/tag">all tag info</a><br>
-
-         the bilibili data manager by @deathsea.
+$else:
+          <form method="POST">
+         $:fo.render()
+         </form>
+ the bilibili data manager by @deathsea.
 </body>
 </html>

@@ -1,0 +1,81 @@
+$def with (data,totalCounts,pageSize,currentPage)
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title>all av information</title>
+	<link type="text/css" rel="stylesheet" href="/statics/css/bootstrap.min.css"/>
+</head>
+<body>
+<ul class="pagination"></ul>
+<div>
+<label>每页数:</label><ul class="list-inline">
+$for i in range(10,101,10):
+    $if i ==pageSize:
+        <li>$i</li>
+    $else:
+        <li><a href="/av?page=$currentPage&splitlimit=$i">$i</a></li>
+</ul>
+</div>
+<script type="text/javascript">
+  function querydel(did)
+  {
+    if (confirm("Are you sure delete this item?"))
+    {
+        window.location.href='/avdel?did='+did;
+    };
+  }
+</script>
+<table class="table">
+  	<tr>
+  		<th>av号</th>
+  		<th>标题</th>
+  		<th>up主</th>
+  		<th>投稿时间</th>
+  		<th> 播放次数</th>
+  		<th> 收藏次数</th>
+  		<th>弹幕数</th>
+  		<th> 评论数 </th>
+  		<th>硬币数</th>
+  		<th>operation</th>
+  	</tr>
+	$for i in data:
+		<tr>
+			<td><a href="http://bilibili.com/video/av$i[1]/">$i[1]</a></td>
+			<td>$i[2]</td>
+			<!--<td>$i[2]</td>-->
+			<td><a href="up/$i[3]">$i[4]</a></td>
+			<td>$i[5]</td>
+			<td>$i[6]</td>
+			<td>$i[7]</td>
+			<td>$i[8]</td>
+			<td>$i[9]</td>
+			<td>$i[10]</td>
+			<td>
+				<a href="avupd?aid=$i[0]">updata</a>/<a onclick="querydel($i[0]);">delete</a> 
+			</td>
+		</tr>
+</table>
+<ul class="pagination"></ul>
+the bilibili data manager by @deathsea
+<script type="text/javascript" src="./statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="./statics/js/jqPaginator.js"></script>
+<script type="text/javascript">
+    $$.jqPaginator('.pagination', {
+        totalCounts: $totalCounts,
+        pageSize:$pageSize,
+        visiblePages: 10,
+        currentPage: $currentPage,
+        first:'<li class="page"><a href=\'/av?page=1&splitlimit=$pageSize\'>First Page</a></li>',
+        last:'<li class="page"><a href=\'/av?page={{totalPages}}&splitlimit=$pageSize\'>Last Page</a></li>',
+        prev: '<li class="prev"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>Previous</a></li>',
+        next: '<li class="next"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>Next</a></li>',
+        page:'<li class="page"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>{{page}}</a></li>',
+        // onPageChange: function (num, type) {
+        //     window.location.href="/av?page="+num+'&splitlimit='+$pageSize;
+        // }
+    });
+</script>
+
+</body>
+</html>
