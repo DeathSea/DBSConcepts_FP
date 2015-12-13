@@ -1,0 +1,73 @@
+$def with (fo)
+<!DOCTYPE html>
+<html>
+<head>
+	<title>insert av infomation</title>
+</head>
+<body>
+<form method="POST">
+<table>
+	$:fo.id.render()
+	<tr>
+		<td>av</td>
+		<td>$:fo.av.render()</td>
+		$if fo.av.note: 
+			<td>$fo.av.note</td>
+	</tr>
+	<tr>
+		<td>title</td>
+		<td>$:fo.title.render()</td>
+		$if fo.title.note: 
+			<td>$fo.title.note</td>
+	</tr>
+	<tr>
+		<td>up</td>
+		<td>$:fo.up.render()</td>
+		$if fo.up.note: 
+			<td>$fo.up.note</td>
+	</tr>
+	<tr>
+		<td>create time</td>
+		<td>$:fo.create_time.render()</td>
+		$if fo.create_time.note: 
+			<td>$fo.create_time.note</td>
+	</tr>
+	<tr>
+		<td>play times</td>
+		<td>$:fo.play_times.render()</td>
+		$if fo.play_times.note: 
+			<td>$fo.play_times.note</td>
+	</tr>
+	<tr>
+		<td>collects count</td>
+		<td>$:fo.collects_count.render()</td>
+		$if fo.collects_count.note: 
+			<td>$fo.collects_count.note</td>
+	</tr>
+	<tr>
+		<td>dans count</td>
+		<td>$:fo.dans_count.render()</td>
+		$if fo.dans_count.note: 
+			<td>$fo.dans_count.note</td>
+	</tr>
+	<tr>
+		<td>reviews count</td>
+		<td>$:fo.reviews_count.render()</td>
+		$if fo.reviews_count.note: 
+			<td>$fo.reviews_count.note</td>
+	</tr>
+	<tr>
+		<td>coins count</td>
+		<td>$:fo.coins_count.render()</td>
+		$if fo.coins_count.note: 
+			<td>$fo.coins_count.note</td>
+	</tr>
+	<tr>
+		<td>
+		<input type="submit" name="submit" value="submit">
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

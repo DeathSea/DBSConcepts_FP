@@ -1,4 +1,4 @@
-$def with (data,totalCounts,pageSize,currentPage)
+$def with (data,totalCounts,pageSize,currentPage,default_order,order)
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,7 @@ $for i in range(10,101,10):
     $if i ==pageSize:
         <li>$i</li>
     $else:
-        <li><a href="/av?page=$currentPage&splitlimit=$i">$i</a></li>
+        <li><a href="/av?page=$currentPage&splitlimit=$i&order=$order">$i</a></li>
 </ul>
 </div>
 <script type="text/javascript">
@@ -31,12 +31,12 @@ $for i in range(10,101,10):
   		<th>av号</th>
   		<th>标题</th>
   		<th>up主</th>
-  		<th>投稿时间</th>
-  		<th> 播放次数</th>
-  		<th> 收藏次数</th>
-  		<th>弹幕数</th>
-  		<th> 评论数 </th>
-  		<th>硬币数</th>
+  		<th><a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[0]">投稿时间</a></th>
+  		<th><a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[1]">播放次数</a> </th>
+  		<th> <a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[2]">收藏次数</a></th>
+  		<th><a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[3]">弹幕数</a></th>
+  		<th> <a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[4]">评论数</a> </th>
+  		<th><a href="/av?page=$currentPage&splitlimit=$pageSize&order=$default_order[5]">硬币数</a></th>
   		<th>operation</th>
   	</tr>
 	$for i in data:
@@ -66,11 +66,11 @@ the bilibili data manager by @deathsea
         pageSize:$pageSize,
         visiblePages: 10,
         currentPage: $currentPage,
-        first:'<li class="page"><a href=\'/av?page=1&splitlimit=$pageSize\'>First Page</a></li>',
-        last:'<li class="page"><a href=\'/av?page={{totalPages}}&splitlimit=$pageSize\'>Last Page</a></li>',
-        prev: '<li class="prev"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>Previous</a></li>',
-        next: '<li class="next"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>Next</a></li>',
-        page:'<li class="page"><a href=\'/av?page={{page}}&splitlimit=$pageSize\'>{{page}}</a></li>',
+        first:'<li class="page"><a href=\'/av?page=1&splitlimit=$pageSize&order=$order\'>First Page</a></li>',
+        last:'<li class="page"><a href=\'/av?page={{totalPages}}&splitlimit=$pageSize&order=$order\'>Last Page</a></li>',
+        prev: '<li class="prev"><a href=\'/av?page={{page}}&splitlimit=$pageSize&order=$order\'>Previous</a></li>',
+        next: '<li class="next"><a href=\'/av?page={{page}}&splitlimit=$pageSize&order=$order\'>Next</a></li>',
+        page:'<li class="page"><a href=\'/av?page={{page}}&splitlimit=$pageSize&order=$order\'>{{page}}</a></li>',
         // onPageChange: function (num, type) {
         //     window.location.href="/av?page="+num+'&splitlimit='+$pageSize;
         // }
