@@ -15,7 +15,7 @@ updata_form = webform.Form(
 	webform.Textbox(name='id',hidden='True',description='id'),
 	webform.Textbox("av",vav,description="av"),
 	webform.Textbox('title',vtitle,description='title'),
-	webform.Textbox('up',description='up'),
+	webform.Textbox('up',vav,description='up'),
 	webform.Textbox('create_time',vcreate,description="create time"),
 	webform.Textbox('play_times',vplay,description='play times'),
 	webform.Textbox('collects_count',vplay,description='collects count'),

@@ -5,6 +5,7 @@ from index.index import index
 from avinfo.index import avindex
 from avinfo.delete import avdel
 from avinfo.updata import avupd
+from avinfo.insert import avins
 from taginfo.index import tagindex
 from upinfo.index import upindex
 web.config.debug = False
@@ -14,6 +15,7 @@ urls = (
     '/av','avindex',
     '/avdel','avdel',
     '/avupd','avupd',
+    '/avins',"avins",
     '/up','upindex',
     '/tag','tagindex',
     '/statics/(js|css)/(.*)\.(js|css)', 'static',

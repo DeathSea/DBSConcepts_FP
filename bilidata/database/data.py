@@ -16,7 +16,14 @@ query_av_info_req = ("select `id`,`av`,`title`,`up_id`,"
   "`collect_times`,`dan_count`,`review_times`,`coins_count` from dbfp_av_info "
   "limit %s,%s"
   )
-
+query_av_info_req_order = ("select `id`,`av`,`title`,`up_id`,"
+    "(select name from dbfp_up_info where dbfp_av_info.up_id=dbfp_up_info.uid),"
+  "`create_stamp`,`play_times`,"
+  "`collect_times`,`dan_count`,`review_times`,`coins_count` from dbfp_av_info "
+  " order by %s "
+  "limit %s,%s"
+  )
+# print query_av_info_req
 query_up_count_req = "select count(uid) from dbfp_up_info"
 query_up_info_req = ("select `uid`, `name`, `lvl`, `sign`, `birth`, `reg_date`, `article`,"
  "`follow_count`, `fans_count` from dbfp_up_info "
@@ -26,7 +33,7 @@ query_up_info_req = ("select `uid`, `name`, `lvl`, `sign`, `birth`, `reg_date`, 
 add_av_info_req = ("INSERT INTO `dbfp_av_info` "
                    "(`id`, `av`, `title`, `up_id`, `create_stamp`, `create_at`, `play_times`,"
                     " `collect_times`, `dan_count`, `review_times`, `coins_count`)"
-                   "VALUES(NULL, %s, %s, %s, FROM_UNIXTIME(%s), %s, %s, %s, %s, %s, %s);")
+                   "VALUES(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);")
 add_up_info_req = ("INSERT INTO `dbfp_up_info`" 
                   "(`uid`, `name`, `lvl`, `sign`, `birth`, `reg_date`, `article`,"
                   " `follow_count`, `fans_count`)"
@@ -94,9 +101,13 @@ def query_av_count(mysql_conn):
     mysql_conn.close()
     return count
 
-def query_av_info(mysql_conn,start,split_count):
+def query_av_info(mysql_conn,start,split_count,order = ""):
   this_cursor = mysql_conn.cursor()
-  this_cursor.execute(query_av_info_req,(start,split_count))
+  if order!="":
+    tq = query_av_info_req_order%(order,'%s','%s')
+    this_cursor.execute(tq,(start,split_count))
+  else:
+    this_cursor.execute(query_av_info_req,(start,split_count))
   resultlist = []
   for idd,av, title, up_id,up, create_stamp, play_times, \
   collect_times, dan_count, review_times, coins_count in  this_cursor:
@@ -106,8 +117,9 @@ def query_av_info(mysql_conn,start,split_count):
   mysql_conn.close()
   return resultlist
 
-#c = connect()
-#print query_av_info(c,0,1)
+# c = connect()
+# print query_av_info(c,0,10,"coins_count")
+
 def query_up_info(mysql_conn,up_id):
     this_cursor = mysql_conn.cursor()
     this_cursor.execute(query_up_info_req,(up_id,))
@@ -155,14 +167,23 @@ def insert_av_info(mysql_conn,dic):
     #test:
     all_key = ["av", "title", "up_id", "create_stamp", "create_at", "play_times", "collect_times",
      "dan_count", "review_times", "coins_count"]
-    if len(map(lambda x:dic.has_key(x),all_key)) != len(all_key):
+    if sum(map(lambda x:dic.has_key(x),all_key)) != len(all_key):
       return 403
     tup = tuple([dic[key] for key in all_key])
+    if dic.has_key('up_id'):
+      c = connect()
+      if not query_up_info(c,int(dic["up_id"])):
+        return 403
 
     this_cursor = mysql_conn.cursor()
     this_cursor.execute(add_av_info_req,tup)
     mysql_conn.commit()
     this_cursor.close()
+
+c = connect()
+testdata = {'create_stamp': '2011-11-11 11:11:11', 'title': u'aaa', 'review_times': 1, 'create_at': '2011-11-11 11:11:11', 'play_times': 1, 'dan_count': 1, 'av': 83298311, 'collect_times': 123, 'coins_count': 1, 'up_id': 1}
+insert_av_info(c,testdata)
+
 
 def insert_tag(mysql_conn,dic):
   all_key = ['name']
