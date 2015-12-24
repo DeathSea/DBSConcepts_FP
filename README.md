@@ -1,4 +1,5 @@
 # DBSConcepts_FP
+史上做的最垃圾的一个计算机作业。没有之一
 the final project of Database System Concepts course
 ### 主题
 bilibili视频简要数据管理
